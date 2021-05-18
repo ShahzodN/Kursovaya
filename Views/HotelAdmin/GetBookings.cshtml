@@ -37,7 +37,11 @@
 					<td><a asp-action="GetVisitorProfile" asp-route-historyId="@Model[i].Id">@Model[i].Visitor.Account.UserName</a></td>
 					@if (Model[i].Visitor.Passport is null)
 					{
-						<td><a asp-action="RegisterVisitor" asp-route-id="@Model[i].VisitorId">Зарегистрировать</a></td>
+						<td>
+							<a asp-action="RegisterVisitor" asp-route-id="" class="btn btn-dark">
+								Зарегистрировать
+							</a>
+						</td>
 					}
 					else
 					{
