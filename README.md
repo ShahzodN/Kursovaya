@@ -46,3 +46,25 @@ Entity Framework Core является ORM-инструментом (object-rela
 
 ![StackTechnologies](https://user-images.githubusercontent.com/52697255/118679274-6c3a3280-b806-11eb-8fcc-3806e849f834.png)
 ![Курсовая](https://user-images.githubusercontent.com/52697255/118679867-ef5b8880-b806-11eb-8935-4438968461b1.jpg)
+
+# Скриншоты
+## Оснавная страница администратора приложения
+![Screenshot 2021-05-18 194753](https://user-images.githubusercontent.com/52697255/118696120-a01d5400-b816-11eb-8e38-254729be55a1.jpg)
+
+## Основная страница администратора сайта гостиницы
+![Screenshot 2021-05-18 202736](https://user-images.githubusercontent.com/52697255/118697307-d5767180-b817-11eb-9e1e-f2c95a3150fb.jpg)
+
+## Поиск гостиниц
+![Screenshot 2021-05-18 201934](https://user-images.githubusercontent.com/52697255/118696164-ad3a4300-b816-11eb-81c7-3c9abf7b0cfb.jpg)
+
+## История бронирования пользователя
+![Screenshot 2021-05-18 200719](https://user-images.githubusercontent.com/52697255/118696210-bd522280-b816-11eb-85b1-471c2c035a68.jpg)
+
+## Информация о сотруднике
+![Screenshot 2021-05-18 201326](https://user-images.githubusercontent.com/52697255/118696260-c9d67b00-b816-11eb-9afa-9881dc1a0fdf.jpg)
+
+## Cтатистика гостиницы
+![Screenshot 2021-05-18 201643](https://user-images.githubusercontent.com/52697255/118696301-d35fe300-b816-11eb-82bb-3e489ee31025.jpg)
+
+
+
