@@ -6,15 +6,15 @@
 			<form asp-action="AvailableHotels" asp-controller="Home" method="get" class="row align-items-end">
 				<div class="col">
 					<label for="cityName" class="form-label"><strong>Куда хотите поехать?</strong></label>
-					<input asp-for="City" class="form-control" value="@Model?.City"/>
+					<input asp-for="City" class="form-control" value="@Model?.City" required/>
 				</div>
 				<div class="col">
 					<label for="checkIn" class="form-label"><strong>Заезд</strong></label>
-					<input asp-for="CheckIn" class="form-control" value="@Model?.GetCheckIn()"/>
+					<input asp-for="CheckIn" class="form-control" value="@Model?.GetCheckIn()" required/>
 				</div>
 				<div class="col">
 					<label for="checkOut" class="form-label"><strong>Отъезд</strong></label>
-					<input type="datetime-local" name="checkOut" class="form-control" value="@Model?.GetCheckOut()" />
+					<input type="datetime-local" name="checkOut" class="form-control" value="@Model?.GetCheckOut()" required/>
 				</div>
 				<div class="col-1">
 					<input hidden asp-for="Filter" value="false" />
