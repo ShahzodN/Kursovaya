@@ -1,0 +1,89 @@
+﻿@{
+	Layout = "_Statistics";
+}
+
+@model StatisticsViewModel
+@await Html.PartialAsync("_Navbar")
+
+<div class="d-flex flex-wrap mt-4 justify-content-center" style="width: 100%;">
+
+	<div class="d-flex flex-column p-2 mx-2 mb-3 shadow bg-body" style="width:48%;">
+		<h2>Рейтинг гостиницы</h2>
+		<div class="d-flex justify-content-between">
+			<div class="d-flex align-items-center justify-content-center">
+				<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-award-fill" viewBox="0 0 16 16">
+					<path d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z" />
+					<path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
+				</svg>
+				<span class="fs-3">@Model.HotelRank место</span>
+			</div>
+			<div class="hotel-rating rounded-circle">
+				<span>@Model.HotelRating</span>
+			</div>
+		</div>
+		<div id="ratingChart" class="mt-2"></div>
+	</div>
+
+	<div class="d-flex flex-column p-2 mx-2 mb-3 shadow bg-body" style="width:48%;">
+		<h2>Количество посетителей</h2>
+		<div>
+			<form id="visCountForm" class="d-flex justify-content-center align-items-end">
+				<div class="mx-1">
+					<label class="form-label"><strong>От</strong></label>
+					<input type="date" name="from" class="form-control" required />
+				</div>
+				<div class="mx-1">
+					<label class="form-label"><strong>До</strong></label>
+					<input type="date" name="to" class="form-control" required />
+				</div>
+				<div class="mx-1">
+					<button class="btn btn-primary" type="submit">OK</button>
+				</div>
+			</form>
+		</div>
+		<div class="d-flex justify-content-center mt-1" id="formResponse" style="display: none;">
+			<label style="font-size: 14px;"></label>
+		</div>
+		<div id="visCountChart" class="mt-2" style="width: 100%"></div>
+	</div>
+
+	<div class="d-flex flex-column p-2 mx-2 mb-3 shadow bg-body" style="width:48%;">
+		<h2>Черный список</h2>
+		<div style="overflow-y: scroll; max-height: 200px;">
+			<table class="table-sm table-striped">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">ФИ</th>
+						<th scope="col">Имя пользователя</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for (int i = 0; i < Model.Blacklist.Count; i++)
+					{
+						<tr>
+							<th scope="row">@(i + 1)</th>
+							<td>@($"{Model.Blacklist[i].Visitor.LastName} {Model.Blacklist[i].Visitor.LastName}")</td>
+							<td>@Model.Blacklist[i].Visitor.Account.UserName</td>
+							<td>
+								<form asp-action="UnblockVisitor" asp-controller="HotelAdmin" method="post">
+									<input type="number" name="id" value="@Model.Blacklist[i].Id" hidden />
+									<button type="submit" class="btn btn-dark">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16">
+											<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+										</svg>
+									</button>
+								</form>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="d-flex flex-column p-2 mx-2 mb-3 shadow bg-body" style="width:48%; height: 40vh">
+		<h2>Доля посетителей по регионам</h2>
+		<div id="visitorsByRegion"></div>
+	</div>
+</div>

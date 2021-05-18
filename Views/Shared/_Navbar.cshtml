@@ -1,0 +1,38 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
+		<a asp-action="Index" asp-controller="Home" class="navbar-brand">Главная</a>
+		<div class="collapse navbar-collapse">
+			<div class="ms-auto">
+				@if (User.Identity.IsAuthenticated)
+				{
+					if (User.IsInRole("Visitor"))
+					{
+						<form asp-action="Logout" asp-controller="Account" method="post">
+							<div class="dropdown">
+								<button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+									@User.Identity.Name
+								</button>
+								<ul class="dropdown-menu">
+									<li><a asp-action="GetHistories" asp-controller="Visitor" class="dropdown-item">История бронирования</a></li>
+									<li><a asp-action="ChangeInfo" asp-controller="Visitor" class="dropdown-item">Изменить данные</a></li>
+									<li><button class="btn dropdown-item" type="submit">Выйти</button></li>
+								</ul>
+							</div>
+						</form>
+					}
+					else
+					{
+						<form asp-action="Logout" asp-controller="Account" method="post">
+							<button class="btn btn-danger">Выйти</button>
+						</form>
+					}
+				}
+				else
+				{
+					<a asp-action="Register" asp-controller="Account" class="ms-auto btn btn-primary">Зарегистрироваться</a>
+					<a asp-action="Login" asp-controller="Account" class="ms-auto btn btn-primary">Войти</a>
+				}
+			</div>
+		</div>
+	</div>
+</nav>

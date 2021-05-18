@@ -1,0 +1,63 @@
+﻿@model AvailableHotelsViewModel
+@await Html.PartialAsync("_Navbar")
+@await Html.PartialAsync("_SearchBlock", Model)
+
+
+@if (ViewBag.Message is not null)
+{
+	<h1>@ViewBag.Message</h1>
+}
+else
+{
+	<div class="container mt-5 d-flex flex-row">
+		@await Html.PartialAsync("_HotelsFilter")
+		<div class="hotels-box px-2">
+			@for (int i = 0; i < Model.Hotels.Count; i++)
+			{
+				<div class="hotel-card">
+					<div class="row px-1">
+						<div class="col-9">
+							<h1>@Model.Hotels[i].HotelName</h1>
+						</div>
+						<div class="col-3 d-flex align-items-center justify-content-center">
+							<div class="hotel-rating rounded-circle">
+								<span>@Model.Hotels[i].HotelRating</span>
+							</div>
+						</div>
+					</div>
+					<div class="row px-1">
+						<div class="col">
+							<h3>@Model.Hotels[i].HotelAddress</h3>
+						</div>
+					</div>
+					<div class="row px-1">
+						<div class="col-10">
+							<h6>@Model.Hotels[i].DistanceFromCenter км от центра</h6>
+						</div>
+						<div class="col-2">
+							<span class="fs-3">@Model.Hotels[i].Price&#8381;</span>
+						</div>
+					</div>
+					<div class="row justify-content-end">
+						<div class="col-3 d-flex justify-content-center">
+							@*<a class="btn btn-success" asp-action="ReserveRoom" asp-controller="Home" asp-all-route-data='new Dictionary<string, string>() {
+																			{ "roomId", Model.Hotels[i].RoomId.ToString()},
+																			{ "checkIn", Model.GetCheckIn()},
+																			{ "checkOut", Model.GetCheckOut()},
+																			{ "price", Model.Hotels[i].Price.ToString() } }'>
+								Забронировать
+							</a>*@
+							<form asp-action="ReserveRoom" method="post">
+								<input type="number" name="roomId" value="@Model.Hotels[i].RoomId" hidden />
+								<input type="datetime-local" name="checkIn" value="@Model.GetCheckIn()" hidden />
+								<input type="datetime-local" name="checkOut" value="@Model.GetCheckOut()" hidden />
+								<input type="number" name="price" value="@Model.Hotels[i].Price" hidden />
+								<button type="submit" class="btn btn-success">Забронировать</button>
+							</form>
+						</div>
+					</div>
+				</div><hr />
+			}
+		</div>
+	</div>
+}

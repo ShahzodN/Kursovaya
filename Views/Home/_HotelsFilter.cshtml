@@ -1,0 +1,41 @@
+﻿@model AvailableHotelsViewModel
+
+<div class="filter-box bg-light border border-3 rounded-1 border-light p-2">
+	<form asp-action="AvailableHotels" asp-controller="Home" method="get">
+		<div class="form-check">
+			<input class="form-check-input" asp-for="IsPetFriendly" id="isPetFriendly" />
+			<label class="form-check-label" for="isPetFriendly">Можно с питомцами</label>
+		</div>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="HasParkinglot" id="hasParkinglot" />
+			<label class="form-check-label" for="hasParkinglot">Парковка</label>
+		</div>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="IsFamilyRoom" id="isFamilyRoom" />
+			<label class="form-check-label" for="isFamilyRoom">Семейные номера</label>
+		</div>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="Breakfast" id="breakfast" />
+			<label class="form-check-label" for="breakfast">Завтрак</label>
+		</div>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="HasFreeWiFi" id="hasFreeWiFi" />
+			<label class="form-check-label" for="hasFreeWiFi">Бесплатный Wi-Fi</label>
+		</div>
+		<div class="form-floating mt-1">
+			<input class="form-control" asp-for="MinPrice" placeholder="Цена, от" id="priceFrom" value="@(Model.MinPrice > 0 ? Model.MinPrice : string.Empty )"/>
+			<label for="priceFrom">Цена, от</label>
+		</div>
+		<div class="form-floating mt-1">
+			<input class="form-control" asp-for="MaxPrice" placeholder="Цена, до" id="priceTo" value="@(Model.MaxPrice < int.MaxValue ? Model.MaxPrice : string.Empty )"/>
+			<label for="priceTo">Цена, до</label>
+		</div>
+		<div class="mt-1 d-grid">
+			<input hidden asp-for="Filter" checked/>
+			<input hidden asp-for="City" value="@Model.City" />
+			<input hidden asp-for="CheckIn" value="@Model.GetCheckIn()" />
+			<input hidden asp-for="CheckOut" value="@Model.GetCheckOut()" />
+			<button type="submit" class="btn btn-primary">Применить</button>
+		</div>
+	</form>
+</div>

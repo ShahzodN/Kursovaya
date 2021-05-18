@@ -1,0 +1,34 @@
+﻿@model ChangeInfoViewModel
+@await Html.PartialAsync("_Navbar")
+
+<div class="mt-4">
+	<form asp-action="ChangeInfo" method="post">
+		<div asp-validation-summary="ModelOnly"></div>
+		<table>
+			<tbody>
+				<tr>
+					<td><strong>Пароль</strong></td>
+					<td>
+						<div>
+							<input asp-for="NewPassword" class="form-control" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Повторите пароль</strong></td>
+					<td>
+						<div>
+							<input asp-for="NewPasswordConfirm" class="form-control" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<th>
+						<button type="submit" class="btn btn-primary">Сохранить</button>
+					</th>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,123 @@
+﻿@model EditEmployeeViewModel
+
+@await Html.PartialAsync("_Navbar")
+
+<div class="row vh-100 justify-content-center align-items-center">
+	<div class="col-4">
+		<form asp-action="EditEmployee" asp-controller="HotelAdmin" method="post">
+			<div asp-validation-summary="ModelOnly"></div>
+			<div class="form-floating">
+				<input asp-for="FirstName" class="form-control" placeholder="Имя" />
+				<label asp-for="FirstName"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="LastName" class="form-control" placeholder="Фамилия" />
+				<label asp-for="LastName"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="MiddleName" class="form-control" placeholder="Отчество" />
+				<label asp-for="MiddleName"></label>
+			</div>
+			<div class="mt-1">
+				<select asp-for="Position" asp-items="Html.GetEnumSelectList<PositionEnum>()" class="form-select">
+					<option selected>--Выберите должность--</option>
+				</select>
+			</div>
+			<div class="form-check mt-1">
+				@if (Model.Gender == GenderEnum.Мужской)
+				{
+					<input checked type="radio" asp-for="Gender" value="Мужской" class="form-check-input" />
+				}
+				else
+				{
+					<input type="radio" asp-for="Gender" value="Мужской" class="form-check-input" />
+				}
+				<label class="form-check-label">Мужской</label>
+			</div>
+			<div class="form-check mt-1">
+				@if (Model.Gender == GenderEnum.Женский)
+				{
+					<input checked type="radio" asp-for="Gender" value="Женский" class="form-check-input" />
+				}
+				else
+				{
+					<input type="radio" asp-for="Gender" value="Женский" class="form-check-input" />
+				}
+				<label class="form-check-label">Женский</label>
+			</div>
+			<input hidden asp-for="HotelId" value="@Model.HotelId" />
+			<input hidden asp-for="AccountId" value="@Model.AccountId" />
+			<input hidden asp-for="PassportId" value="@Model.PassportId" />
+			<input hidden asp-for="Id" value="@Model.Id" />
+			<div class="d-grid mt-1">
+				<button type="submit" class="btn btn-primary">Внести изменения</button>
+			</div>
+		</form>
+	</div>
+	<div class="col">
+		<div class="d-flex" style="height: 100%;">
+			<div style="width: 220px;" class="d-flex flex-column mx-5 shadow">
+				<div class="d-flex justify-content-between mb-1 week-days">
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">ПН</span>
+					</div>
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">ВТ</span>
+					</div>
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">СР</span>
+					</div>
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">ЧТ</span>
+					</div>
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">ПТ</span>
+					</div>
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">СБ</span>
+					</div>
+					<div class="d-flex justify-content-center" style="width: 28px;">
+						<span class="dayName">ВС</span>
+					</div>
+				</div>
+				<div class="d-flex flex-wrap" style="width: 100%;">
+					@{
+						var daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+						var dayOfWeek = (int)(new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).DayOfWeek);
+						double duration;
+					}
+					@for (int j = 0; j < dayOfWeek - 1; j++)
+					{
+						<div class="d-flex justify-content-center align-items-center p-1 mb-1 day"></div>
+					}
+					@for (int i = 0; i < daysInMonth; i++)
+					{
+						if (i < Model.VisitInfos.Count)
+						{
+							if (Model.VisitInfos[i].CheckIn.Day == i + 1)
+							{
+								duration = (Model.VisitInfos[i].CheckOut - Model.VisitInfos[i].CheckIn).TotalHours;
+								<div class="d-flex justify-content-center align-items-center p-1 mb-1 day" style="background-color: rgba(0, 186, 188, @((duration / 16).ToString().Replace(',', '.')));color: #007B7C;">
+									<span>@(i + 1)</span>
+									<span class="hint">@($"{Model.VisitInfos[i].CheckIn.ToShortTimeString()}-{Model.VisitInfos[i].CheckOut.ToShortTimeString()}")</span>
+								</div>
+							}
+							else
+							{
+								<div class="d-flex justify-content-center align-items-center p-1 mb-1 day" style="background-color: rgb(240, 240, 240);color: #ccc;">
+									<span>@(i + 1)</span> 
+								</div>
+							}
+						}
+						else
+						{
+							<div class="d-flex justify-content-center align-items-center p-1 mb-1 day" style="background-color: rgb(240, 240, 240);color: #ccc;">
+								<span>@(i + 1)</span>
+							</div>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

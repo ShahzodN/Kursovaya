@@ -1,0 +1,58 @@
+﻿@model CreateHotelAdminViewModel
+
+<div class="row vh-100 justify-content-center align-items-center">
+	<div class="col-12 col-sm-6 col-md-5">
+		<form asp-action="CreateHotelAdmin" asp-controller="AppAdmin" method="post">
+			<h3>Регистрация администратора</h3>
+			<div asp-validation-summary="ModelOnly"></div>
+			<div class="form-floating">
+				<input asp-for="FirstName" class="form-control" placeholder="Имя" />
+				<label asp-for="FirstName"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="LastName" class="form-control" placeholder="Фамилия" />
+				<label asp-for="LastName"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="MiddleName" class="form-control" placeholder="Отсчество" />
+				<label asp-for="MiddleName"></label>
+			</div>
+			<div class="mt-1">
+				<select asp-for="Position" asp-items="Html.GetEnumSelectList<PositionEnum>()" class="form-select">
+					<option>--Выберите должность--</option>
+				</select>
+			</div>
+			<div class="form-check mt-1">
+				<input type="radio" asp-for="Gender" value="Мужской" class="form-check-input" id="male" />
+				<label for="male" class="form-check-label">Мужской</label>
+			</div>
+			<div class="mt-1">
+				<input type="radio" asp-for="Gender" value="Женский" class="form-check-input" id="female" />
+				<label for="female" class="form-check-label">Женский</label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="HotelName" class="form-control" placeholder="Имя гостиницы" />
+				<label asp-for="HotelName"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="UserName" class="form-control" placeholder="Имя пользователя" />
+				<label asp-for="UserName"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="Email" class="form-control" placeholder="Email" />
+				<label asp-for="Email"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="Password" class="form-control" placeholder="Пароль" />
+				<label asp-for="Password"></label>
+			</div>
+			<div class="form-floating mt-1">
+				<input asp-for="PasswordConfirm" class="form-control" placeholder="Подтверждение пароля" />
+				<label asp-for="PasswordConfirm"></label>
+			</div>
+			<div class="d-grid mt-1">
+				<button type="submit" class="btn btn-primary">Добавить</button>
+			</div>
+		</form>
+	</div>
+</div>

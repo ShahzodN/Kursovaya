@@ -1,0 +1,46 @@
+﻿@model List<BookingHistory>
+
+@await Html.PartialAsync("_Navbar")
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Гостиница</th>
+			<th scope="col">Заезд</th>
+			<th scope="col">Отъезд</th>
+			<th scope="col">Цена</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (int i = 0; i < Model.Count; i++)
+		{
+			<tr>
+				<th scope="row">@(i + 1)</th>
+				<td>@Model[i].Room.Hotel.Name</td>
+				<td>@Model[i].CheckIn</td>
+				<td>@Model[i].CheckOut</td>
+				<td>@Model[i].Price&#8381;</td>
+				@if (DateTime.Now < Model[i].CheckIn)
+				{
+					<td>
+						<form asp-action="CancelBooking" method="post">
+							<input type="number" name="id" value="@Model[i].Id" hidden/>
+							<button type="submit" class="btn btn-dark">
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16">
+									<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+								</svg>
+							</button>
+						</form>
+					</td>
+				}
+				@if (Model[i].CheckOut.Date < DateTime.Now.Date)
+				{
+					<td><a asp-action="Review" asp-controller="Visitor" asp-route-historyId="@Model[i].Id" class="btn btn-info">Оставить отзыв</a></td>
+				}
+			</tr>
+		}
+	</tbody>
+</table>

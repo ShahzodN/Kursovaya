@@ -1,0 +1,29 @@
+﻿@model BookingHistory
+
+@await Html.PartialAsync("_Navbar")
+<div style="width: 40%;margin-top: 1em">
+	<table class="table table-borderless">
+		<tbody>
+			<tr>
+				<td><strong>Имя пользователя</strong></td>
+				<td>@Model.Visitor.Account.UserName</td>
+			</tr>
+			<tr>
+				<td><strong>ФИО</strong></td>
+				<td>@($"{Model.Visitor.LastName} {Model.Visitor.FirstName} {Model.Visitor.MiddleName}")</td>
+			</tr>
+			<tr>
+				<td><strong>Email</strong></td>
+				<td>@Model.Visitor.Account.Email</td>
+			</tr>
+			<tr>
+				<td>
+					<form asp-action="BlockVisitor" method="post">
+						<input type="number" name="historyId" value="@Model.Id" hidden/>
+						<button type="submit" class="btn btn-danger">Добавить в черный список</button>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

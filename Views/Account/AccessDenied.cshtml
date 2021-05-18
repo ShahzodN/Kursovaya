@@ -1,0 +1,5 @@
+﻿@model UserManager<Account>
+@if (User.IsInRole("AppAdmin"))
+{
+	<h1>Access Denied.</h1>
+}

@@ -1,0 +1,50 @@
+﻿@model List<BookingHistory>
+@await Html.PartialAsync("_Navbar")
+
+<div class="container-fluid mt-2">
+	<form asp-action="GetBookings" method="get">
+		<div class="row">
+			<div class="col-2">
+				<input type="date" name="date" value="@DateTime.Today" />
+			</div>
+			<div class="col-1">
+				<button type="submit" class="btn btn-primary">Показать</button>
+			</div>
+		</div>
+	</form>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Заезд</th>
+				<th scope="col">Отъезд</th>
+				<th scope="col">Номер комнаты</th>
+				<th scope="col">Цена</th>
+				<th scope="col">Пользователь</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (int i = 0; i < Model.Count; i++)
+			{
+				<tr>
+					<th scope="row">@(i + 1)</th>
+					<td>@Model[i].CheckIn</td>
+					<td>@Model[i].CheckOut</td>
+					<td>@Model[i].Room.Number</td>
+					<td>@Model[i].Price&#8381;</td>
+					<td><a asp-action="GetVisitorProfile" asp-route-historyId="@Model[i].Id">@Model[i].Visitor.Account.UserName</a></td>
+					@if (Model[i].Visitor.Passport is null)
+					{
+						<td><a asp-action="RegisterVisitor" asp-route-id="@Model[i].VisitorId">Зарегистрировать</a></td>
+					}
+					else
+					{
+						<td><label>Зарегистрирован</label></td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
