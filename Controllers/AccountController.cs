@@ -168,7 +168,7 @@ namespace Kursovaya.Controllers
 				using (var client = new SmtpClient())
 				{
 					client.Connect("smtp.mail.ru", 465, true);
-					client.Authenticate("reset.it@mail.ru", "");
+					client.Authenticate("reset.it@mail.ru", "resetPassword");
 					client.Send(message);
 					client.Disconnect(true);
 				}
