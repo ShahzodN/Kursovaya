@@ -51,6 +51,8 @@ namespace Kursovaya.Controllers
 		public async Task<IActionResult> AvailableHotels(AvailableHotelsViewModel vm)
 		{
 			ViewBag.Title = "Результаты поиска";
+			decimal days = Convert.ToDecimal((vm.CheckOut - vm.CheckIn).TotalHours / 24);
+
 			var rooms = await db.Rooms
 						.Include(r => r.Hotel)
 						.Include(r => r.BookingHistories)
@@ -58,7 +60,7 @@ namespace Kursovaya.Controllers
 								&& (!r.BookingHistories.Any(bh => ((bh.CheckOut >= vm.CheckIn && bh.CheckOut <= vm.CheckOut)
 															|| (bh.CheckIn >= vm.CheckIn && bh.CheckIn <= vm.CheckOut)))
 									|| r.BookingHistories.Count == 0)
-								&& (r.Price >= vm.MinPrice && r.Price <= vm.MaxPrice))
+								&& (r.Price * days >= vm.MinPrice && r.Price * days <= vm.MaxPrice))
 						.ToListAsync();
 
 			rooms = rooms.Distinct(new RoomComparer()).ToList();
@@ -116,6 +118,8 @@ namespace Kursovaya.Controllers
 
 		private List<Room> FilterRooms(AvailableHotelsViewModel vm, List<Room> rooms)
 		{
+			var hours = Convert.ToDecimal((vm.CheckOut - vm.CheckIn).TotalHours / 24);
+
 			if (vm.IsFamilyRoom)
 				rooms = rooms.Where(r => r.IsFamilyRoom == vm.IsFamilyRoom).ToList();
 			if (vm.HasParkinglot)
