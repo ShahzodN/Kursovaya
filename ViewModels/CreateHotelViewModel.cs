@@ -45,8 +45,5 @@ namespace Kursovaya.ViewModels
 		
 		[Display(Name = "Беспплатный Wi-Fi")]
 		public bool HasFreeWiFi { get; set; }
-
-		[Required]
-		public List<IFormFile> Files { get; set; }
 	}
 }

@@ -19,7 +19,6 @@ namespace Kursovaya.Data.EntityConfigurations
 				.IsRequired();
 
 			builder.Property(e => e.Price)
-				.HasColumnType("decimal")
 				.IsRequired();
 
 			builder.Property(e => e.IsFamilyRoom)

@@ -18,5 +18,8 @@ namespace Kursovaya.ViewModels
 		[Display(Name = "Семейный номер")]
 		[Required]
 		public bool IsFamilyRoom { get; set; }
+
+		[Required]
+		public RoomTypeEnum Type { get; set; }
 	}
 }

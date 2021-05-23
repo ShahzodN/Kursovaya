@@ -63,23 +63,41 @@ namespace Kursovaya.Controllers
 								&& (r.Price * days >= vm.MinPrice && r.Price * days <= vm.MaxPrice))
 						.ToListAsync();
 
-			rooms = rooms.Distinct(new RoomComparer()).ToList();
 			if (vm.Filter)
 				rooms = FilterRooms(vm, rooms).ToList();
 
-			List<AvailableHotelDTO> hotelDTOs = rooms.Select(z => new AvailableHotelDTO()
+			var groupedRooms = rooms.GroupBy(r => r.HotelId);
+			List<AvailableHotelDTO> hotels = new List<AvailableHotelDTO>();
+
+			foreach (var a in groupedRooms)
 			{
-				HotelName = z.Hotel.Name,
-				HotelAddress = z.Hotel.Address,
-				DistanceFromCenter = z.Hotel.DistanceFromCenter,
-				HotelRating = z.Hotel.StarRating,
-				Price = Math.Floor(z.Price * (decimal)((vm.CheckOut - vm.CheckIn).TotalHours / 24)),
-				RoomId = z.Id
-			}).ToList();
+				var availableHotel = new AvailableHotelDTO();
+				foreach (var b in a)
+				{
+					availableHotel.HotelName = b.Hotel.Name;
+					availableHotel.HotelAddress = b.Hotel.Name;
+					availableHotel.DistanceFromCenter = b.Hotel.DistanceFromCenter;
+					availableHotel.HotelRating = b.Hotel.StarRating;
+					availableHotel.Rooms.Add(b);
+				}
+				hotels.Add(availableHotel);
+			}
+			//rooms = rooms.Distinct().ToList();
+
+
+			//List<AvailableHotelDTO> hotelDTOs = rooms.Select(z => new AvailableHotelDTO()
+			//{
+			//	HotelName = z.Hotel.Name,
+			//	HotelAddress = z.Hotel.Address,
+			//	DistanceFromCenter = z.Hotel.DistanceFromCenter,
+			//	HotelRating = z.Hotel.StarRating,
+			//	Price = Math.Floor(z.Price * (decimal)((vm.CheckOut - vm.CheckIn).TotalHours / 24)),
+			//	RoomId = z.Id
+			//}).ToList();
 
 			return View(new AvailableHotelsViewModel()
 			{
-				Hotels = hotelDTOs,
+				Hotels = hotels,
 				City = vm.City,
 				CheckIn = vm.CheckIn,
 				CheckOut = vm.CheckOut,

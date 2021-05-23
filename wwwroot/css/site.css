@@ -1,11 +1,11 @@
-﻿.filter-box{
+﻿.filter-box {
 	width: 25%;
 	height: 500px;
 	position: sticky;
 	top: 10px;
 }
 
-.hotels, .hotels-box{
+.hotels, .hotel-card {
 	width: 100%;
 }
 
@@ -21,7 +21,7 @@
 	background-color: dodgerblue;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
 }
@@ -37,33 +37,33 @@ input[type="checkbox"]{
 	margin-left: 3px;
 }
 
-	.day .hint {
-		visibility: hidden;
-		width: 80px;
-		background-color: black;
-		color: #fff;
-		text-align: center;
-		border-radius: 6px;
-		padding: 5px 0;
-		position: absolute;
-		z-index: 1;
-		bottom: 130%;
-		left: 50%;
-		margin-left: -40px;
-		font-size: 12px;
-	}
+.day .hint {
+	visibility: hidden;
+	width: 80px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 130%;
+	left: 50%;
+	margin-left: -40px;
+	font-size: 12px;
+}
 
-		.day .hint::after {
-			content: "";
-			position: absolute;
-			top: 100%;
-			left: 50%;
-			margin-left: -5px;
-			border-width: 5px;
-			border-style: solid;
-			border-color: black transparent transparent transparent;
-		}
+.day .hint::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
+}
 
-	.day:hover .hint {
-		visibility: visible;
-	}
+.day:hover .hint {
+	visibility: visible;
+}

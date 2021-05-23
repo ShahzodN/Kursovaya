@@ -107,7 +107,9 @@ namespace Kursovaya.Controllers
 					HotelId = room.HotelId,
 					Number = room.Number,
 					Price = room.Price,
-					Square = room.Square
+					Square = room.Square,
+					IsFamilyRoom = room.IsFamilyRoom,
+					Type = room.Type
 				};
 				return View(vm);
 			}
@@ -217,6 +219,7 @@ namespace Kursovaya.Controllers
 						Square = vm.Square,
 						Price = vm.Price,
 						IsFamilyRoom = vm.IsFamilyRoom,
+						Type = vm.Type,
 						Hotel = user.Hotel
 					};
 					await db.Rooms.AddAsync(newRoom);
@@ -268,7 +271,9 @@ namespace Kursovaya.Controllers
 					HotelId = vm.HotelId,
 					Square = vm.Square,
 					Price = vm.Price,
-					Number = vm.Number
+					Number = vm.Number,
+					IsFamilyRoom = vm.IsFamilyRoom,
+					Type = vm.Type
 				};
 				db.Rooms.Update(room);
 				await db.SaveChangesAsync();

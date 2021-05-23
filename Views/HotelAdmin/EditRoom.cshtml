@@ -17,6 +17,15 @@
 				<input asp-for="Price" class="form-control" placeholder="Цена" />
 				<label asp-for="Price" class="form-label"></label>
 			</div>
+			<div class="form-check form-switch mt-1">
+				<input class="form-check-input" asp-for="IsFamilyRoom" />
+				<label asp-for="IsFamilyRoom"></label>
+			</div>
+			<div class="mt-1">
+				<select asp-for="Type" asp-items="Html.GetEnumSelectList<RoomTypeEnum>()" class="form-select">
+					<option selected>--Выберите категорию</option>
+				</select>
+			</div>
 			<input hidden asp-for="@Model.RoomId" />
 			<input hidden asp-for="@Model.HotelId" />
 			<div class="d-grid mt-1">

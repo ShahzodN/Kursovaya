@@ -8,6 +8,7 @@ namespace Kursovaya.DTO
 		public AvailableHotelDTO()
 		{
 			HotelReviews = new List<Review>();
+			Rooms = new List<Room>();
 		}
 		public string HotelName { get; set; }
 		public double HotelRating { get; set; }
@@ -16,5 +17,6 @@ namespace Kursovaya.DTO
 		public double DistanceFromCenter { get; set; }
 		public string HotelAddress { get; set; }
 		public List<Review> HotelReviews { get; set; }
+		public List<Room> Rooms { get; set; }
 	}
 }
