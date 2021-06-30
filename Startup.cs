@@ -33,6 +33,7 @@ namespace Kursovaya
 				config.Password.RequireLowercase = false;
 				config.Password.RequireNonAlphanumeric = false;
 				config.Password.RequireUppercase = false;
+				config.User.RequireUniqueEmail = true;
 			})
 			.AddEntityFrameworkStores<DataContext>()
 			.AddDefaultTokenProviders();

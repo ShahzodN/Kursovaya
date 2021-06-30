@@ -32,6 +32,7 @@ namespace Kursovaya.Controllers
 			var admin = await userManager.GetUserAsync(User);
 
 			var hotelsRating = await db.Hotels.Where(h => h.CityId == admin.Hotel.CityId)
+											  .OrderByDescending(h=>h.StarRating)
 											  .Select(h => h.StarRating)
 											  .ToListAsync();
 
@@ -55,6 +56,7 @@ namespace Kursovaya.Controllers
 			var marks = await db.Reviews.Where(r => r.BookingHistory.Room.HotelId == admin.HotelId)
 										.Select(r => r.Mark)
 										.ToListAsync();
+			
 			dynamic[][] marksArr = new dynamic[5][];
 			int max = 0;
 			for (int i = 0; i < 5; i++)

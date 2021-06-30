@@ -26,6 +26,7 @@ namespace Kursovaya.Controllers
 			signInManager = _signInManager;
 			roleManager = _roleManager;
 		}
+		
 		#region GET
 		
 		[HttpGet]
@@ -99,7 +100,8 @@ namespace Kursovaya.Controllers
 				{
 					UserName = vm.UserName,
 					Email = vm.Email,
-					RegisteredDate = DateTime.Today
+					RegisteredDate = DateTime.Today,
+					PhoneNumber = vm.PhoneNumber
 				};
 				var create = await userManager.CreateAsync(account, vm.Password);
 				if (create.Succeeded)

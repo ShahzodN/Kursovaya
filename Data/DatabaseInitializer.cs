@@ -27,7 +27,7 @@ namespace Kursovaya.Data
 		{
 			if (userManager.FindByNameAsync("appAdmin").GetAwaiter().GetResult() is null)
 			{
-				var user = new Account() { UserName = "appAdmin" };
+				var user = new Account() { UserName = "appadmin", Email = "email@mail.ru" };
 				var res = userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
 				if (res.Succeeded)
 				{

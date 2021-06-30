@@ -87,6 +87,7 @@
 						var daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
 						var dayOfWeek = (int)(new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).DayOfWeek);
 						double duration;
+						int k = 0;
 					}
 					@for (int j = 0; j < dayOfWeek - 1; j++)
 					{
@@ -94,15 +95,16 @@
 					}
 					@for (int i = 0; i < daysInMonth; i++)
 					{
-						if (i < Model.VisitInfos.Count)
+						if (k < Model.VisitInfos.Count)
 						{
-							if (Model.VisitInfos[i].CheckIn.Day == i + 1)
+							if (Model.VisitInfos[k].CheckIn.Day == i + 1)
 							{
-								duration = (Model.VisitInfos[i].CheckOut - Model.VisitInfos[i].CheckIn).TotalHours;
+								duration = (Model.VisitInfos[k].CheckOut - Model.VisitInfos[k].CheckIn).TotalHours;
 								<div class="d-flex justify-content-center align-items-center p-1 mb-1 day" style="background-color: rgba(0, 186, 188, @((duration / 16).ToString().Replace(',', '.')));color: #007B7C;">
 									<span>@(i + 1)</span>
-									<span class="hint">@($"{Model.VisitInfos[i].CheckIn.ToShortTimeString()}-{Model.VisitInfos[i].CheckOut.ToShortTimeString()}")</span>
+									<span class="hint">@($"{Model.VisitInfos[k].CheckIn.ToShortTimeString()}-{Model.VisitInfos[k].CheckOut.ToShortTimeString()}")</span>
 								</div>
+								k++;
 							}
 							else
 							{

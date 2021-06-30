@@ -1,11 +1,12 @@
-﻿@model List<BookingHistory>
+﻿@model List<GetBookingsDTO>
 @await Html.PartialAsync("_Navbar")
 
+<h3>История  бронирования</h3>
 <div class="container-fluid mt-2">
 	<form asp-action="GetBookings" method="get">
 		<div class="row">
 			<div class="col-2">
-				<input type="date" name="date" value="@DateTime.Today" />
+				<input type="date" name="date" value="@DateTime.Today.Date.ToString("yyyy-MM-dd")" />
 			</div>
 			<div class="col-1">
 				<button type="submit" class="btn btn-primary">Показать</button>
@@ -23,6 +24,7 @@
 				<th scope="col">Пользователь</th>
 				<th scope="col"></th>
 				<th scope="col"></th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,10 +34,18 @@
 					<th scope="row">@(i + 1)</th>
 					<td>@Model[i].CheckIn</td>
 					<td>@Model[i].CheckOut</td>
-					<td>@Model[i].Room.Number</td>
+					<td>@Model[i].RoomNumber</td>
 					<td>@Model[i].Price&#8381;</td>
-					<td><a asp-action="GetVisitorProfile" asp-route-historyId="@Model[i].Id">@Model[i].Visitor.Account.UserName</a></td>
-					@if (Model[i].Visitor.Passport is null)
+					<td><a asp-action="GetVisitorProfile" asp-route-historyId="@Model[i].Id">@Model[i].UserName</a></td>
+					@if (Model[i].IsBlockedVisitor)
+					{
+						<td title="Пользователь из ЧС">
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+							</svg>
+						</td>
+					}
+					@if (!Model[i].IsRegistered)
 					{
 						<td>
 							<a asp-action="RegisterVisitor" asp-route-id="" class="btn btn-dark">
@@ -47,6 +57,16 @@
 					{
 						<td><label>Зарегистрирован</label></td>
 					}
+					<td>
+						<form asp-action="DeleteReservation" method="post">
+							<input type="number" name="id" value="@Model[i].Id" hidden />
+							<button type="submit" class="btn btn-dark">
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16">
+									<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+								</svg>
+							</button>
+						</form>
+					</td>
 				</tr>
 			}
 		</tbody>

@@ -12,10 +12,12 @@ namespace Kursovaya.DTO
 		}
 		public string HotelName { get; set; }
 		public double HotelRating { get; set; }
-		public int RoomId { get; set; }
-		public decimal Price { get; set; }
 		public double DistanceFromCenter { get; set; }
 		public string HotelAddress { get; set; }
+		public bool IsPetFriendly { get; set; }
+		public bool HasParkinglot { get; set; }
+		public bool HasBreakfast { get; set; }
+		public bool HasFreeWiFi { get; set; }
 		public List<Review> HotelReviews { get; set; }
 		public List<Room> Rooms { get; set; }
 	}

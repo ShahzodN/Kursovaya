@@ -4,7 +4,7 @@
 	<div class="col-12 col-sm-4 col-md-4">
 		<h3>Регистрация сотрудника</h3>
 		<form asp-action="CreateEmployee" asp-controller="HotelAdmin" method="post" enctype="multipart/form-data">
-			<div asp-validation-summary="ModelOnly"></div>
+			<div asp-validation-summary="All" class="text-danger"></div>
 			<div class="form-floating">
 				<input asp-for="FirstName" class="form-control" placeholder="Имя" />
 				<label asp-for="FirstName"></label>

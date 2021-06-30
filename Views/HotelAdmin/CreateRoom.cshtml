@@ -2,9 +2,9 @@
 
 <div class="row vh-100 justify-content-center align-items-center">
 	<div class="col-12 col-sm-4 col-md-4">
+		<h3>Добавить комнату</h3>
 		<form asp-action="CreateRoom" asp-controller="HotelAdmin" method="post">
-			<h3>Добавить комнату</h3>
-			<div asp-validation-summary="ModelOnly"></div>
+			<div asp-validation-summary="All" class="text-danger"></div>
 			<div class="form-floating">
 				<input asp-for="Number" class="form-control" placeholder="Номер комнаты" />
 				<label asp-for="Number" class="form-label"></label>
@@ -23,7 +23,7 @@
 			</div>
 			<div class="mt-1">
 				<select asp-for="Type" asp-items="Html.GetEnumSelectList<RoomTypeEnum>()" class="form-select">
-					<option selected>--Выберите категорию</option>
+					<option selected>--Выберите категорию--</option>
 				</select>
 			</div>
 			<div class="d-grid mt-1">

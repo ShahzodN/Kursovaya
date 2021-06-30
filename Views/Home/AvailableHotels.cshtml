@@ -8,7 +8,7 @@
 		@for (int i = 0; i < Model.Hotels.Count; i++)
 		{
 			<div class="accordion-item">
-				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(i)" aria-expanded="true" aria-controls="collapse@(i)">
 					<div class="hotel-card mx-2">
 						<div class="row px-1">
 							<div class="col-9">
@@ -26,13 +26,43 @@
 							</div>
 						</div>
 						<div class="row px-1">
-							<div class="col-10">
+							<div class="col">
 								<h6>@Model.Hotels[i].DistanceFromCenter км от центра</h6>
 							</div>
 						</div>
+						<div class="d-flex flex-row-reverse">
+							@if (Model.Hotels[i].IsPetFriendly)
+							{
+								<div class="col">
+									<img src="~/images/petfriendly_24px.png" alt="pet" />
+									Можно с питомцами
+								</div>
+							}
+							@if (Model.Hotels[i].HasBreakfast)
+							{
+								<div class="col">
+									<img src="~/images/breakfast_24px.png" alt="breakfast" />
+									Завтрак включен
+								</div>
+							}
+							@if (Model.Hotels[i].HasFreeWiFi)
+							{
+								<div class="col">
+									<img src="~/images/wifi_24px.png" alt="wifi" />
+									Бесплатный Wi-Fi
+								</div>
+							}
+							@if (Model.Hotels[i].HasParkinglot)
+							{
+								<div class="col">
+									<img src="~/images/parking_24px.png" alt="parkinglot" />
+									Есть парковка
+								</div>
+							}
+						</div>
 					</div>
 				</button>
-				<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+				<div id="collapse@(i)" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
 					<div class="accordion-body">
 						<table class="table table-striped">
 							<thead>
@@ -53,7 +83,10 @@
 										@switch (Model.Hotels[i].Rooms[j].Type)
 										{
 											case RoomTypeEnum.SGL:
-												<td><img src="~/images/single-bed.png" />Номер с односпальной кроватью</td>
+												<td>
+													<img src="~/images/single-bed.png" />
+													Номер с односпальной кроватью
+												</td>
 												break;
 											case RoomTypeEnum.DBL:
 												<td>
@@ -63,11 +96,18 @@
 												</td>
 												break;
 											case RoomTypeEnum.DBL_TWN:
-												<td><img src="~/images/dbl_twn_bed.png" />Номер с двуспальной кроватью</td>
+												<td>
+													<img src="~/images/dbl_twn_bed.png" />
+													Номер с двуспальной кроватью
+												</td>
 												break;
 											case RoomTypeEnum.TRPL:
-												break;
-											default:
+												<td>
+													<img src="~/images/single-bed_16px.png" />
+													<img src="~/images/single-bed_16px.png" />
+													<img src="~/images/single-bed_16px.png" />
+													Номер с тремя кроватями
+												</td>
 												break;
 										}
 										<td>@Model.Hotels[i].Rooms[j].Square</td>
@@ -79,13 +119,13 @@
 												</svg>
 											}
 										</td>
-										<td>@(Model.Hotels[i].Rooms[j].Price * (decimal)(Model.CheckOut - Model.CheckIn).TotalDays)&#8381;</td>
+										<td>@(Math.Round(Model.Hotels[i].Rooms[j].Price * (decimal)(Model.CheckOut - Model.CheckIn).TotalDays))&#8381;</td>
 										<td>
-											<form asp-action="ReserveRoom" method="post">
-												<input type="number" name="roomId" value="@Model.Hotels[i].RoomId" hidden />
+											<form asp-action="ReserveRoom" asp-controller="Home" method="post">
+												<input type="number" name="roomId" value="@Model.Hotels[i].Rooms[j].Id" hidden />
 												<input type="datetime-local" name="checkIn" value="@Model.GetCheckIn()" hidden />
 												<input type="datetime-local" name="checkOut" value="@Model.GetCheckOut()" hidden />
-												<input type="number" name="price" value="@Model.Hotels[i].Price" hidden />
+												<input type="number" name="price" value="@(Model.Hotels[i].Rooms[j].Price * (decimal)(Model.CheckOut - Model.CheckIn).TotalDays)" hidden />
 												<button type="submit" class="btn btn-success">Забронировать</button>
 											</form>
 										</td>

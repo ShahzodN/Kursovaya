@@ -4,7 +4,7 @@
 		<div class="col-12 col-sm-6 col-md-4">
 			<h3>Вход</h3>
 			<form asp-action="Login" asp-controller="Account" method="post" asp-antiforgery="true">
-				<div asp-validation-summary="ModelOnly"></div>
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<div class="form-floating">
 					<input asp-for="UserName" class="form-control" placeholder="Имя пользователья">
 					<label asp-for="UserName"></label>

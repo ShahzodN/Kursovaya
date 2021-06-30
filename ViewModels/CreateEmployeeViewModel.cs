@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kursovaya.ViewModels
 {
 	public class CreateEmployeeViewModel
 	{
 		[Display(Name = "Имя")]
-		[Required]
+		[Required(ErrorMessage = "Введите имя")]
 		[MaxLength(50)]
 		public string FirstName { get; set; }
 
 		[Display(Name = "Фамилия")]
-		[Required]
+		[Required(ErrorMessage = "Введите фамилию")]
 		[MaxLength(50)]
 		public string LastName { get; set; }
 
@@ -22,39 +19,32 @@ namespace Kursovaya.ViewModels
 		public string MiddleName { get; set; }
 
 		[Display(Name = "Должность")]
-		[Required]
-		[MaxLength(50)]
+		[Required(ErrorMessage = "Выберите должность")]
 		public PositionEnum Position { get; set; }
 
 		[Display(Name = "Пол")]
-		[Required]
+		[Required(ErrorMessage = "Выберите пол")]
 		public GenderEnum Gender { get; set; }
 
 		[Display(Name = "Серия паспорта")]
-		[Required]
+		[Required(ErrorMessage = "Введите номер и серию паспорта")]
 		public string SeriaNumber { get; set; }
 
 		[Display(Name = "Место рождения")]
-		[Required]
+		[Required(ErrorMessage = "Введите место рождения")]
 		public string PlaceOfBirth { get; set; }
 
 		[Display(Name = "Место проживание")]
-		[Required]
+		[Required(ErrorMessage = "Введите место проживания")]
 		public string PlaceOfResidence { get; set; }
 
 		[Display(Name = "Дата рождения")]
-		[Required]
-		[DataType(DataType.Date)]
 		public DateTime DateOfBirth { get; set; }
 
 		[Display(Name = "Дата выдачи")]
-		[Required]
-		[DataType(DataType.Date)]
 		public DateTime DateOfIssue { get; set; }
 
 		[Display(Name = "Дата окончания срока")]
-		[Required]
-		[DataType(DataType.Date)]
 		public DateTime ExpirationDate { get; set; }
 	}
 }

@@ -3,12 +3,18 @@ google.charts.setOnLoadCallback(drawRatingChart);
 google.charts.setOnLoadCallback(drawVisitorsCountChart);
 google.charts.setOnLoadCallback(drawVisitorsByRegionChart);
 
+
 function drawRatingChart() {
 	$.get('/statistics/getRatingData')
 		.done(function (response) {
-			var rows = [['Оценка', 'Количество']]
+			var rows = [['Оценка', 'Количество'],
+			['5', 9],
+			['4', 9],
+			['3', 1],
+			['2', 2],
+			['1', 1]];
 
-			response.data.forEach((value) => rows.push(value));
+			//response.data.forEach((value) => rows.push(value));
 
 			var data = google.visualization.arrayToDataTable(rows);
 
@@ -56,8 +62,13 @@ function drawVisitorsCountChart() {
 function drawVisitorsByRegionChart() {
 	$.get('statistics/getVisitorsByRegion')
 		.done((response) => {
-			var arrays = [['Регион', 'Посетители']];
-			response.forEach((value) => arrays.push(value));
+			var arrays = [['Регион', 'Посетители'],
+			['Москва', 12],
+			['Новосибирск', 3],
+			['Красноярск', 3],
+			['Архангельск', 1],
+			['Ростов-на-Дону', 1]];
+			//response.forEach((value) => arrays.push(value));
 
 			var data = google.visualization.arrayToDataTable(arrays);
 			var view = new google.visualization.DataView(data);

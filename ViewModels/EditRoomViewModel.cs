@@ -14,10 +14,11 @@ namespace Kursovaya.ViewModels
 		[Required]
 		public double Square { get; set; }
 
-		[Display(Name = "Цена за 12 часов")]
+		[Display(Name = "Цена за сутки")]
 		[Required]
 		public decimal Price { get; set; }
 
+		[Display(Name = "Семейный номер")]
 		[Required]
 		public bool IsFamilyRoom { get; set; }
 		

@@ -1,11 +1,14 @@
 ﻿using Kursovaya.Data;
+using Kursovaya.DTO;
 using Kursovaya.Identity;
 using Kursovaya.Models;
 using Kursovaya.ViewModels;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,13 +59,24 @@ namespace Kursovaya.Controllers
 		{
 			ViewBag.Title = "Бронирования";
 			var admin = await userManager.GetUserAsync(User);
-			List<BookingHistory> bookings = null;
-			if (date == DateTime.MinValue)
-				bookings = await db.BookingHistories.Where(bh => bh.Room.HotelId == admin.HotelId && bh.CheckIn.Date == DateTime.Today.Date)
-											.ToListAsync();
-			else
-				bookings = await db.BookingHistories.Where(bh => bh.Room.HotelId == admin.HotelId && bh.CheckIn.Date == date.Date)
-											.ToListAsync();
+			List<GetBookingsDTO> bookings = null;
+
+			DateTime askedDate = date == DateTime.MinValue ? DateTime.Today.Date : date;
+
+			bookings = await db.BookingHistories.Where(bh => bh.Room.HotelId == admin.HotelId
+														  && bh.CheckIn.Date == askedDate)
+												.Select(bh => new GetBookingsDTO()
+												{
+													Id = bh.Id,
+													CheckIn = bh.CheckIn,
+													CheckOut = bh.CheckOut,
+													Price = bh.Price,
+													RoomNumber = bh.Room.Number,
+													UserName = bh.Visitor.Account.UserName,
+													IsBlockedVisitor = db.Blacklist.Any(b => b.VisitorId == bh.VisitorId
+																						  && b.HotelId == bh.Room.HotelId)
+												})
+												.ToListAsync();
 
 			return View(bookings);
 		}
@@ -134,9 +148,9 @@ namespace Kursovaya.Controllers
 			{
 				var visitInfos = await db.EmployeeVisitInfos.Where(v => v.EmployeeId == employee.Id
 																		&& v.CheckIn.Month == DateTime.Today.Month)
-															.OrderBy(v=>v.CheckIn.Date)
+															.OrderBy(v => v.CheckIn.Date)
 															.ToListAsync();
-				
+
 				EditEmployeeViewModel vm = new EditEmployeeViewModel()
 				{
 					Id = employee.Id,
@@ -201,8 +215,9 @@ namespace Kursovaya.Controllers
 				await db.Passports.AddAsync(newPassport);
 				await db.Employees.AddAsync(newEmployee);
 				await db.SaveChangesAsync();
+				return RedirectToAction("GetEmployees");
 			}
-			return RedirectToAction("GetEmployees");
+			return View(vm);
 		}
 
 		[HttpPost]
@@ -371,7 +386,40 @@ namespace Kursovaya.Controllers
 			}
 			return NotFound();
 		}
-		
+
+		[HttpPost]
+		public async Task<IActionResult> DeleteReservation(int id)
+		{
+			var booking = await db.BookingHistories.FindAsync(id);
+			if (booking is not null)
+			{
+				var visitorEmail = booking.Visitor.Account.Email;
+				db.BookingHistories.Remove(booking);
+				await db.SaveChangesAsync();
+
+				//var message = new MimeMessage();
+				//message.From.Add(new MailboxAddress("Kursovaya", "reset.it@mail.ru"));
+				//message.To.Add(new MailboxAddress("Visitor", visitorEmail));
+				//message.Subject = "Отмена бронирования";
+
+				//message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+				//{
+				//	Text = $"<h2>К сожалению, мы не можем предоставить вам номер.</h2>"
+				//};
+
+				//using (var client = new SmtpClient())
+				//{
+				//	client.Connect("smtp.mail.ru", 465, true);
+				//	client.Authenticate("reset.it@mail.ru", "resetPassword");
+				//	client.Send(message);
+				//	client.Disconnect(true);
+				//}
+
+				return RedirectToAction("GetBookings");
+			}
+			return NotFound();
+		}
+
 		#endregion
 	}
 }

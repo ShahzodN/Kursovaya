@@ -48,9 +48,22 @@ namespace Kursovaya.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> GetCities()
+		{
+			var cities = await db.Cities.ToListAsync();
+			return Json(cities);
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> AvailableHotels(AvailableHotelsViewModel vm)
 		{
 			ViewBag.Title = "Результаты поиска";
+			if (vm.CheckIn < DateTime.Now) // проверка дата заезда и текущей даты
+				ModelState.AddModelError(string.Empty, "Дата заезда должна быть в будущем");
+			if (vm.CheckOut < vm.CheckIn) // проверка дата заезда и отъезда
+				ModelState.AddModelError(string.Empty, "Дата отъезда не может быть раньше заезда");
+			if (ModelState.ErrorCount > 0)
+				return View("Index", vm);
 			decimal days = Convert.ToDecimal((vm.CheckOut - vm.CheckIn).TotalHours / 24);
 
 			var rooms = await db.Rooms
@@ -75,25 +88,17 @@ namespace Kursovaya.Controllers
 				foreach (var b in a)
 				{
 					availableHotel.HotelName = b.Hotel.Name;
-					availableHotel.HotelAddress = b.Hotel.Name;
+					availableHotel.HotelAddress = b.Hotel.Address;
 					availableHotel.DistanceFromCenter = b.Hotel.DistanceFromCenter;
 					availableHotel.HotelRating = b.Hotel.StarRating;
+					availableHotel.HasParkinglot = b.Hotel.HasParkinglot;
+					availableHotel.IsPetFriendly = b.Hotel.IsPetFriendly;
+					availableHotel.HasFreeWiFi = b.Hotel.HasFreeWiFi;
+					availableHotel.HasBreakfast = b.Hotel.HasBreakfast;
 					availableHotel.Rooms.Add(b);
 				}
 				hotels.Add(availableHotel);
 			}
-			//rooms = rooms.Distinct().ToList();
-
-
-			//List<AvailableHotelDTO> hotelDTOs = rooms.Select(z => new AvailableHotelDTO()
-			//{
-			//	HotelName = z.Hotel.Name,
-			//	HotelAddress = z.Hotel.Address,
-			//	DistanceFromCenter = z.Hotel.DistanceFromCenter,
-			//	HotelRating = z.Hotel.StarRating,
-			//	Price = Math.Floor(z.Price * (decimal)((vm.CheckOut - vm.CheckIn).TotalHours / 24)),
-			//	RoomId = z.Id
-			//}).ToList();
 
 			return View(new AvailableHotelsViewModel()
 			{
